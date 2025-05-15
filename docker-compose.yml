@@ -1,0 +1,13 @@
+name: template
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nest-example
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/rms?schema=public
+    ports:
+      - 3333:3333
+    volumes:
+      - .:/usr/src/app
