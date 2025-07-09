@@ -1,4 +1,4 @@
-name: template
+name: nest-boilerplate
 services:
   app:
     build:
@@ -6,7 +6,7 @@ services:
       dockerfile: Dockerfile
     container_name: nest-example
     environment:
-      - DATABASE_URL=postgresql://postgres:postgres@db:5432/rms?schema=public
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/nest-boilerplate?schema=public
     ports:
       - 3333:3333
     volumes:

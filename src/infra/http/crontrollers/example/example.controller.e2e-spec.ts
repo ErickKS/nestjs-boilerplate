@@ -3,7 +3,7 @@ import { INestApplication } from '@nestjs/common'
 import { Test } from '@nestjs/testing'
 import request from 'supertest'
 
-describe('[POST] /example', () => {
+describe('[POST] /example/:userId', () => {
   let app: INestApplication
 
   beforeAll(async () => {
@@ -15,18 +15,32 @@ describe('[POST] /example', () => {
     await app.init()
   })
 
-  test('should be able to execute an example request', async () => {
-    const input = {
+  afterAll(async () => {
+    await app.close()
+  })
+
+  test('should return 200 and echo the validated request', async () => {
+    const userId = '8b6e9d0a-22f5-4b59-95dc-1caa4d9f7d35'
+    const body = {
       name: 'John Doe',
-      email: 'john.dow@email.com',
-      password: 'asdQWE123',
+      email: 'john.doe@example.com',
     }
-    const response = await request(app.getHttpServer()).post('/example').send(input)
-    expect(response.statusCode).toBe(201)
-    expect(response.body).toEqual(
-      expect.objectContaining({
-        userId: expect.any(String),
-      })
-    )
+    const query = {
+      active: true,
+      limit: 10,
+    }
+    const response = await request(app.getHttpServer()).post(`/example/${userId}`).query(query).send(body)
+    expect(response.statusCode).toBe(200)
+    expect(response.body).toEqual({
+      message: 'Validated successfully',
+      data: {
+        params: { userId },
+        query: {
+          active: true,
+          limit: 10,
+        },
+        body,
+      },
+    })
   })
 })
