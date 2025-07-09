@@ -11,7 +11,7 @@ async function bootstrap() {
 
   const config = new DocumentBuilder().setTitle('Template').setDescription('NestJS Project').setVersion('1.0').build()
   patchNestJsSwagger()
-  const documentFactory = () => SwaggerModule.createDocument(app, config)
+  const documentFactory = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('docs', app, documentFactory)
 
   await app.listen(port)
